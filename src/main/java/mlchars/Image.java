@@ -1,5 +1,7 @@
 package mlchars;
 
+import mlchars.metrics.Metric;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,6 +26,22 @@ public class Image {
         mPixels = new boolean[rgbPixels.length];
         for (int i = 0; i < mPixels.length; ++i)
             mPixels[i] = rgbPixels[i] != -1;
+    }
+
+    public long getDistanceFrom(Image other, Metric metric) {
+        return metric.getDistanceBetween(this, other);
+    }
+
+    public int getWidth() {
+        return mWidth;
+    }
+
+    public int getHeight() {
+        return mHeight;
+    }
+
+    public boolean[] getPixels() {
+        return mPixels;
     }
 
     public void printASCII() {
