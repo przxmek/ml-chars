@@ -19,7 +19,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>MLChars</mainClass>
+                            <mainClass>mlchars.MLChars</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

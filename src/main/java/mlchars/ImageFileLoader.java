@@ -1,10 +1,7 @@
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.Raster;
+package mlchars;
+
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.nio.Buffer;
 
 /**
  * Created by Przemysław Kuczyński on 4/29/15.
@@ -30,14 +27,5 @@ public class ImageFileLoader {
         };
 
         return dir.list(filter);
-    }
-
-    public BufferedImage getImage(String imagePath) {
-        try {
-            return javax.imageio.ImageIO.read(new File(imagePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

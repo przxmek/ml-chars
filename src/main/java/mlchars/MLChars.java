@@ -1,4 +1,5 @@
-import java.awt.image.BufferedImage;
+package mlchars;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -8,7 +9,6 @@ import java.io.IOException;
 public class MLChars {
 
     public static void main(String[] args) throws IOException {
-        System.out.println(args.length);
         if (args.length != 2) {
             System.out.println("Program run with invalid parameters.");
             System.exit(1);
@@ -28,28 +28,9 @@ public class MLChars {
         }
 
         for (String imgFile : imageFiles) {
-            BufferedImage img = loader.getImage(data_path.concat(imgFile));
-            int w = img.getWidth();
-            int h = img.getHeight();
+            Image img = new Image(new File(data_path.concat(imgFile)));
 
-            int[] pixels = img.getRGB(0, 0, w, h, null, 0, w);
-
-            boolean[] bits = new boolean[pixels.length];
-            for (int i = 0; i < pixels.length; ++i) {
-                bits[i] = pixels[i] != -1;
-            }
-
-            // Printing
-            System.out.println(imgFile);
-            for (int y = 0; y < h; ++y) {
-                for (int x = 0; x < w; ++x) {
-                    if (bits[y * w + x])
-                        System.out.print("#");
-                    else
-                        System.out.print(" ");
-                }
-                System.out.println();
-            }
+            img.printASCII();
         }
 
         System.out.println(String.format("Data path: %s\nOutput file: %s\n", data_path, output_file));
