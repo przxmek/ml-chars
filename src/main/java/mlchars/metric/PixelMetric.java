@@ -1,4 +1,4 @@
-package mlchars.metrics;
+package mlchars.metric;
 
 import mlchars.Image;
 
@@ -40,5 +40,7 @@ public class PixelMetric implements Metric {
         return Double.MAX_VALUE;
     }
 
-    public double getMinValue() { return .0f; }
+    public double getMinValue() {
+        return .0f;
+    }
 }

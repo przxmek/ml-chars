@@ -1,5 +1,8 @@
 package mlchars;
 
+import mlchars.clustering.Clusterer;
+import mlchars.clustering.Cobweb;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ public class MLChars {
         String data_path = args[0];
         String output_file = args[1];
 
+        System.out.println(String.format("Data path: %s\nOutput file: %s\n", data_path, output_file));
+
         if (!data_path.endsWith("/"))
             data_path = data_path.concat("/");
 
@@ -35,7 +40,14 @@ public class MLChars {
 
         ImageDataset dataset = new ImageDatasetDefault();
         dataset.addAll(images);
+        Clusterer clusterer = new Cobweb();
+        ImageDataset[] result = clusterer.cluster(dataset);
 
-        System.out.println(String.format("Data path: %s\nOutput file: %s\n", data_path, output_file));
+        for (int i = 0; i < result.length; ++i) {
+            System.out.print(String.format("GROUP %d: ", i));
+            for (int j = 0; j < result[i].size(); ++j)
+                System.out.print(String.format("%s, ", result[i].getImage(j).getLabel()));
+            System.out.println();
+        }
     }
 }

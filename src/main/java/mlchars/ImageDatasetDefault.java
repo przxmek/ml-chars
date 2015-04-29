@@ -1,6 +1,6 @@
 package mlchars;
 
-import mlchars.metrics.Metric;
+import mlchars.metric.Metric;
 
 import java.util.*;
 
@@ -49,6 +49,10 @@ public class ImageDatasetDefault implements ImageDataset {
         }
 
         return closest.keySet();
+    }
+
+    public int size() {
+        return data.size();
     }
 
     private double removeFurthest(Map<Image, Double> closest, Metric metric) {

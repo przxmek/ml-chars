@@ -1,6 +1,6 @@
 package mlchars;
 
-import mlchars.metrics.Metric;
+import mlchars.metric.Metric;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -48,6 +48,18 @@ public class Image {
 
     public boolean[] getPixels() {
         return pixels;
+    }
+
+    public int getPixel(int i) {
+        if (i < 0)
+            return 0;
+        if (i < pixels.length)
+            return pixels[i] ? 1 : 0;
+        return 0;
+    }
+
+    public int noAttributes() {
+        return pixels.length;
     }
 
     public void printASCII() {

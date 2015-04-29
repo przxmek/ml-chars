@@ -10,13 +10,13 @@ public class ImageFileLoader {
 
     private static ImageFileLoader sIntance = null;
 
+    private ImageFileLoader() {
+    }
+
     public static ImageFileLoader getInstance() {
         if (sIntance == null)
             sIntance = new ImageFileLoader();
         return sIntance;
-    }
-
-    private ImageFileLoader() {
     }
 
     public String[] getImageFileNamesInDir(File dir) {

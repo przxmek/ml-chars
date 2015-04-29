@@ -1,4 +1,4 @@
-package mlchars.metrics;
+package mlchars.metric;
 
 import mlchars.Image;
 
@@ -7,7 +7,10 @@ import mlchars.Image;
  */
 public interface Metric {
     boolean compare(double a, double b);
+
     double getDistanceBetween(Image a, Image b);
+
     double getMaxValue();
+
     double getMinValue();
 }
