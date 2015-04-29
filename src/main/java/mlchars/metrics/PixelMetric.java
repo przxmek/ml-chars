@@ -6,7 +6,11 @@ import mlchars.Image;
  * Created by Przemysław Kuczyński on 4/29/15.
  */
 public class PixelMetric implements Metric {
-    public long getDistanceBetween(Image img1, Image img2) {
+    public boolean compare(double a, double b) {
+        return a < b;
+    }
+
+    public double getDistanceBetween(Image img1, Image img2) {
         boolean[] a = img1.getPixels();
         boolean[] b = img2.getPixels();
         if (a.length < b.length) {
@@ -31,4 +35,10 @@ public class PixelMetric implements Metric {
 
         return distance;
     }
+
+    public double getMaxValue() {
+        return Double.MAX_VALUE;
+    }
+
+    public double getMinValue() { return .0f; }
 }

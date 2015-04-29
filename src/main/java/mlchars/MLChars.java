@@ -2,6 +2,8 @@ package mlchars;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Przemysław Kuczyński on 4/29/15.
@@ -27,11 +29,12 @@ public class MLChars {
             System.exit(1);
         }
 
-        for (String imgFile : imageFiles) {
-            Image img = new Image(new File(data_path.concat(imgFile)));
+        List<Image> images = new ArrayList<Image>(imageFiles.length);
+        for (String imgFile : imageFiles)
+            images.add(new Image(new File(data_path.concat(imgFile))));
 
-            img.printASCII();
-        }
+        ImageDataset dataset = new ImageDatasetDefault();
+        dataset.addAll(images);
 
         System.out.println(String.format("Data path: %s\nOutput file: %s\n", data_path, output_file));
     }

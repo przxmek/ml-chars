@@ -11,8 +11,9 @@ import java.io.IOException;
  * Created by Przemysław Kuczyński on 4/29/15.
  */
 public class Image {
-    private int mWidth, mHeight;
-    private boolean mPixels[];
+    private String label;
+    private int width, height;
+    private boolean pixels[];
 
     public Image(File imageFile) throws IOException {
         BufferedImage img = javax.imageio.ImageIO.read(imageFile);
@@ -20,34 +21,39 @@ public class Image {
         Rectangle r = trimLeftAndUp(img);
         int[] rgbPixels = img.getRGB(r.x, r.y, r.width, r.height, null, 0, r.width);
 
-        mWidth = r.width;
-        mHeight = r.height;
+        label = imageFile.getName();
+        width = r.width;
+        height = r.height;
 
-        mPixels = new boolean[rgbPixels.length];
-        for (int i = 0; i < mPixels.length; ++i)
-            mPixels[i] = rgbPixels[i] != -1;
+        pixels = new boolean[rgbPixels.length];
+        for (int i = 0; i < pixels.length; ++i)
+            pixels[i] = rgbPixels[i] != -1;
     }
 
-    public long getDistanceFrom(Image other, Metric metric) {
+    public double getDistanceFrom(Image other, Metric metric) {
         return metric.getDistanceBetween(this, other);
     }
 
+    public String getLabel() {
+        return label;
+    }
+
     public int getWidth() {
-        return mWidth;
+        return width;
     }
 
     public int getHeight() {
-        return mHeight;
+        return height;
     }
 
     public boolean[] getPixels() {
-        return mPixels;
+        return pixels;
     }
 
     public void printASCII() {
-        for (int y = 0; y < mHeight; ++y) {
-            for (int x = 0; x < mWidth; ++x) {
-                if (mPixels[y * mWidth + x])
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                if (pixels[y * width + x])
                     System.out.print("#");
                 else
                     System.out.print(" ");
