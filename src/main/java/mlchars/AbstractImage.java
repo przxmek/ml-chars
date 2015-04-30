@@ -10,7 +10,7 @@ public abstract class AbstractImage implements Image {
         int h = this.getHeight();
 
         for (int y = 0; y < h; ++y) {
-            for (int x = 0; x < w; ++w) {
+            for (int x = 0; x < w; ++x) {
                 resultPixels[y * w + x] = this.getPixel(x, y) + other.getPixel(x, y);
             }
         }
@@ -24,7 +24,7 @@ public abstract class AbstractImage implements Image {
         int h = this.getHeight();
 
         for (int y = 0; y < h; ++y) {
-            for (int x = 0; x < w; ++w) {
+            for (int x = 0; x < w; ++x) {
                 resultPixels[y * w + x] = this.getPixel(x, y) - other.getPixel(x, y);
             }
         }
@@ -38,7 +38,7 @@ public abstract class AbstractImage implements Image {
         int h = this.getHeight();
 
         for (int y = 0; y < h; ++y) {
-            for (int x = 0; x < w; ++w) {
+            for (int x = 0; x < w; ++x) {
                 resultPixels[y * w + x] = this.getPixel(x, y) - value;
             }
         }

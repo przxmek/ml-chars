@@ -25,7 +25,7 @@ public class Cobweb implements Clusterer {
     private DatasetFilter filter = new NormalizeMean();
 
     public Cobweb() {
-        this(0.5, 0.01);
+        this(0.1, 0.002);
     }
 
     public Cobweb(double acuity, double cutoff) {

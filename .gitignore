@@ -1,6 +1,5 @@
 target/
-
-clusters.txt
+clusters/
 
 .idea/workspace.xml
 .idea/tasks.xml
