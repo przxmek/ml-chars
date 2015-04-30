@@ -40,20 +40,22 @@ public class KMeans implements Clusterer {
         int maxW = data.getMaxWidth();
         int maxH = data.getMaxHeight();
         int maxLength = maxW * maxH;
-        for (int j = 0; j < numberOfClusters; ++j) {
+        for (int j = 0; j < numberOfClusters; ++j)
             centroids[j] = (DefaultImage) DatasetUtil.getRandomImage(data, random);
-        }
 
         int iterationCount = 0;
         boolean centroidsChanged = true;
         boolean randomCentroids = true;
+
         while (randomCentroids || (iterationCount < numberOfIterations && centroidsChanged)) {
             ++iterationCount;
+
             // Assign each object to the group that has the closest centroid.
             int[] assignment = new int[data.size()];
-            for (int i = 0; i < data.size(); ++i) {
+            for (int i = 0; i < assignment.length; ++i) {
                 int tmpCluster = 0;
                 double minDistance = metric.getDistanceBetween(centroids[tmpCluster], data.getImage(i));
+
                 for (int j = 1; j < centroids.length; ++j) {
                     double dist = metric.getDistanceBetween(centroids[j], data.getImage(i));
                     if (metric.compare(dist, minDistance)) {
@@ -65,8 +67,8 @@ public class KMeans implements Clusterer {
             }
 
             // Recalculate positions of the K centroids.
-            double[][] sumPosition = new double[this.numberOfClusters][maxLength];
-            int[] countPosition = new int[this.numberOfClusters];
+            double[][] sumPosition = new double[numberOfClusters][maxLength];
+            int[] countPosition = new int[numberOfClusters];
             for (int i = 0; i < data.size(); ++i) {
                 DefaultImage in = data.getImage(i);
                 for (int y = 0; y < maxH; ++y) {
@@ -74,45 +76,32 @@ public class KMeans implements Clusterer {
                         sumPosition[assignment[i]][y * maxW + x] += in.getPixel(x, y);
                     }
                 }
-//                for (int j = 0; j < imageLength; ++j) {
-//                    sumPosition[assignment[i]][j] += in.getPixel(j);
-//                }
                 ++countPosition[assignment[i]];
             }
             centroidsChanged = false;
             randomCentroids = false;
             for (int i = 0; i < numberOfClusters; ++i) {
                 if (countPosition[i] > 0) {
-//                    double[] tmp = new double[imageLength];
-//                    for (int j = 0; j < imageLength; ++j) {
-//                        tmp[j] = (float) sumPosition[i][j] / countPosition[i];
-//                    }
-//                    DefaultImage newCentroid = new DefaultImage(w, h, tmp);
                     double[] tmp = new double[maxLength];
-                    for (int j = 0; j < maxLength; ++j) {
+
+                    for (int j = 0; j < maxLength; ++j)
                         tmp[j] = (float) sumPosition[i][j] / countPosition[i];
-                    }
+
                     DefaultImage newCentroid = new DefaultImage(maxW, maxH, tmp);
                     if (metric.getDistanceBetween(newCentroid, centroids[i]) > EPSILON) {
                         centroidsChanged = true;
                         centroids[i] = newCentroid;
                     }
-                } else {
-//                    double[] randomImage = new double[imageLength];
-//                    for (int j = 0; j < imageLength; ++j) {
-//                        double dist = Math.abs(max.getPixel(j) - min.getPixel(j));
-//                        randomImage[j] = (float) (min.getPixel(j) + random.nextDouble() * dist);
-//                    }
-//                    randomCentroids = true;
-//                    centroids[i] = new DefaultImage(w, h, randomImage);
-
+                } else if (iterationCount < numberOfIterations){
                     double[] randomImage = new double[maxLength];
+
                     for (int y = 0; y < maxH; ++y) {
                         for (int x = 0; x < maxW; ++x) {
                             double dist = Math.abs(max.getPixel(x, y) - min.getPixel(x, y));
                             randomImage[y * maxW + x] = (float) (min.getPixel(x, y) + random.nextDouble() * dist);
                         }
                     }
+
                     randomCentroids = true;
                     centroids[i] = new DefaultImage(maxW, maxH, randomImage);
                 }
@@ -125,7 +114,7 @@ public class KMeans implements Clusterer {
             int tmpCluster = 0;
             double minDistance = metric.getDistanceBetween(centroids[tmpCluster], data.getImage(i));
             for (int j = 1; j < centroids.length; ++j) {
-                double dist = metric.getDistanceBetween(centroids[i], data.getImage(i));
+                double dist = metric.getDistanceBetween(centroids[j], data.getImage(i));
                 if (metric.compare(dist, minDistance)) {
                     minDistance = dist;
                     tmpCluster = j;

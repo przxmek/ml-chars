@@ -42,7 +42,7 @@ public class MLChars {
 
         ImageDataset dataset = new ImageDatasetDefault();
         dataset.addAll(images);
-        Clusterer clusterer = new KMeans(100, 2, new PixelMetric());
+        Clusterer clusterer = new KMeans(100, 100, new PixelMetric());
         ImageDataset[] result = clusterer.cluster(dataset);
 
         for (int i = 0; i < result.length; ++i) {
