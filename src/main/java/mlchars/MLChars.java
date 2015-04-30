@@ -2,6 +2,8 @@ package mlchars;
 
 import mlchars.clustering.Clusterer;
 import mlchars.clustering.Cobweb;
+import mlchars.clustering.KMeans;
+import mlchars.metric.PixelMetric;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,13 +36,13 @@ public class MLChars {
             System.exit(1);
         }
 
-        List<Image> images = new ArrayList<Image>(imageFiles.length);
+        List<DefaultImage> images = new ArrayList<DefaultImage>(imageFiles.length);
         for (String imgFile : imageFiles)
-            images.add(new Image(new File(data_path.concat(imgFile))));
+            images.add(new DefaultImage(new File(data_path.concat(imgFile))));
 
         ImageDataset dataset = new ImageDatasetDefault();
         dataset.addAll(images);
-        Clusterer clusterer = new Cobweb();
+        Clusterer clusterer = new KMeans(100, 2, new PixelMetric());
         ImageDataset[] result = clusterer.cluster(dataset);
 
         for (int i = 0; i < result.length; ++i) {

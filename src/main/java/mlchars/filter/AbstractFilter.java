@@ -1,6 +1,6 @@
 package mlchars.filter;
 
-import mlchars.Image;
+import mlchars.DefaultImage;
 import mlchars.ImageDataset;
 
 /**
@@ -16,5 +16,5 @@ public abstract class AbstractFilter implements DatasetFilter, InstanceFilter {
             filter(data.getImage(i));
     }
 
-    public abstract void filter(Image img);
+    public abstract void filter(DefaultImage img);
 }

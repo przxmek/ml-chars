@@ -10,30 +10,43 @@ public class PixelMetric implements Metric {
         return a < b;
     }
 
+//    public double getDistanceBetween(DefaultImage img1, DefaultImage img2) {
+//        double[] a = img1.getPixels();
+//        double[] b = img2.getPixels();
+//        if (a.length < b.length) {
+//            double[] t = a;
+//            a = b;
+//            b = t;
+//        }
+//        int len = Math.max(a.length, b.length);
+//
+//        long distance = 0;
+//        for (int i = 0; i < len; ++i) {
+//            if (b.length > i) {
+//                if (a[i] != b[i])
+//                    ++distance;
+//            } else if (a[i]) {
+//                ++distance;
+//            }
+//        }
+//
+//        return distance;
+//    }
+
     public double getDistanceBetween(Image img1, Image img2) {
-        boolean[] a = img1.getPixels();
-        boolean[] b = img2.getPixels();
-        if (a.length < b.length) {
-            boolean[] t = a;
-            a = b;
-            b = t;
-        }
-        int len = Math.max(a.length, b.length);
+        int maxW = Math.max(img1.getWidth(), img2.getWidth());
+        int maxH = Math.max(img1.getHeight(), img2.getHeight());
 
-        System.err.println(a.length);
-        System.err.println(b.length);
+        double distance = 0;
 
-        long distance = 0;
-        for (int i = 0; i < len; ++i) {
-            if (b.length > i) {
-                if (a[i] != b[i])
-                    ++distance;
-            } else if (a[i]) {
-                ++distance;
+        for (int y = 0; y < maxH; ++y) {
+            for (int x = 0; x < maxW; ++x) {
+                double d = img1.getPixel(x, y) - img2.getPixel(x, y);
+                distance += d * d;
             }
         }
 
-        return distance;
+        return Math.sqrt(distance);
     }
 
     public double getMaxValue() {

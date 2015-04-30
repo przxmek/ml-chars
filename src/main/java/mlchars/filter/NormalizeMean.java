@@ -1,6 +1,6 @@
 package mlchars.filter;
 
-import mlchars.Image;
+import mlchars.DefaultImage;
 import mlchars.ImageDataset;
 
 /**
@@ -8,8 +8,8 @@ import mlchars.ImageDataset;
  */
 public class NormalizeMean extends AbstractFilter {
 
-    private Image mean = null;
-    private Image std = null;
+    private DefaultImage mean = null;
+    private DefaultImage std = null;
 
     @Override
     public void filter(ImageDataset data) {
@@ -25,14 +25,14 @@ public class NormalizeMean extends AbstractFilter {
     }
 
     @Override
-    public void filter(Image img) {
+    public void filter(DefaultImage img) {
 //        if (mean == null || std == null)
 //            throw new RuntimeException(
 //                    "You should first call filterDataset for this filter, some parameters are not yet set."
 //            );
 
-//        Image i = img.minus(mean).divide(std);
-//        for (int i = 0; i < img.noAttributes(); ++i)
+//        DefaultImage i = img.minus(mean).divide(std);
+//        for (int i = 0; i < img.attributesCount(); ++i)
 //            img.put(i, tmp.value(i));
     }
 }
