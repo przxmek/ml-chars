@@ -1,12 +1,13 @@
 package mlchars;
 
 import mlchars.clustering.Clusterer;
-import mlchars.clustering.Cobweb;
 import mlchars.clustering.KMeans;
 import mlchars.metric.PixelMetric;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class MLChars {
 
         ImageDataset dataset = new ImageDatasetDefault();
         dataset.addAll(images);
-        Clusterer clusterer = new Cobweb();
-//        Clusterer clusterer = new KMeans(100, 20, new PixelMetric());
+//        Clusterer clusterer = new Cobweb();
+        Clusterer clusterer = new KMeans(200, 1000, new PixelMetric());
         ImageDataset[] result = clusterer.cluster(dataset);
 
         int groupCount = 0;
@@ -55,6 +56,35 @@ public class MLChars {
             for (int j = 0; j < result[i].size(); ++j)
                 System.out.print(String.format("%s, ", ((DefaultImage) result[i].getImage(j)).getLabel()));
             System.out.println();
+        }
+
+        // Copy images
+        organizeImages("clusters", data_path, result);
+
+    }
+
+    private static void organizeImages(String targetPath, String dataPath, ImageDataset[] result) throws IOException {
+        int groupCount = 0;
+        File clusterDir = new File(targetPath);
+        if (clusterDir.mkdir()) {
+            for (int i = 0; i < result.length; ++i) {
+                if (result[i].size() == 0)
+                    continue;
+                ++groupCount;
+                File groupDir = new File(clusterDir, Integer.toString(groupCount));
+                if (groupDir.mkdir()) {
+                    for (int j = 0; j < result[i].size(); ++j) {
+                        String fileName = "/" + ((DefaultImage) result[i].getImage(j)).getLabel();
+                        Path src = new File(dataPath.concat(fileName)).toPath();
+                        Path dest = new File(groupDir.getPath().concat(fileName)).toPath();
+                        Files.copy(src, dest);
+                    }
+                } else {
+                    System.err.print(String.format("Failed to create %s directory.\n", groupDir.getPath()));
+                }
+            }
+        } else {
+            System.err.print(String.format("Failed to create %s directory.\n", clusterDir.getPath()));
         }
     }
 }
