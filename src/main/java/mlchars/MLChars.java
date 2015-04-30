@@ -45,8 +45,12 @@ public class MLChars {
         Clusterer clusterer = new KMeans(100, 20, new PixelMetric());
         ImageDataset[] result = clusterer.cluster(dataset);
 
+        int groupCount = 0;
         for (int i = 0; i < result.length; ++i) {
-            System.out.print(String.format("GROUP %d: ", i));
+            if (result[i].size() == 0)
+                continue;
+            ++groupCount;
+            System.out.print(String.format("GROUP %d: ", groupCount));
             for (int j = 0; j < result[i].size(); ++j)
                 System.out.print(String.format("%s, ", result[i].getImage(j).getLabel()));
             System.out.println();
