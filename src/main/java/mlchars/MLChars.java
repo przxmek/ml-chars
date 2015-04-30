@@ -1,9 +1,6 @@
 package mlchars;
 
-import mlchars.clustering.Clusterer;
-import mlchars.clustering.Cobweb;
-import mlchars.clustering.FarthestFirst;
-import mlchars.clustering.KMeans;
+import mlchars.clustering.*;
 import mlchars.metric.PixelMetric;
 
 import java.io.File;
@@ -46,6 +43,7 @@ public class MLChars {
         ImageDataset dataset = new ImageDatasetDefault();
         dataset.addAll(images);
 
+//        Clusterer clusterer = new DBSCAN(1, 100, new PixelMetric());
         Clusterer clusterer = new FarthestFirst(600, new PixelMetric());
 //        Clusterer clusterer = new Cobweb();
 //        Clusterer clusterer = new KMeans(100, 20, new PixelMetric());
