@@ -1,10 +1,10 @@
 package mlchars.filter;
 
-import mlchars.DefaultImage;
+import mlchars.Image;
 
 /**
  * Created by Przemysław Kuczyński on 4/29/15.
  */
 public interface InstanceFilter {
-    void filter(DefaultImage img);
+    void filter(Image img);
 }

@@ -1,6 +1,7 @@
 package mlchars.clustering;
 
 import mlchars.DefaultImage;
+import mlchars.Image;
 import mlchars.ImageDataset;
 import mlchars.ImageDatasetDefault;
 import mlchars.metric.Metric;
@@ -33,15 +34,15 @@ public class KMeans implements Clusterer {
         if (numberOfClusters == 0)
             throw new RuntimeException("There should be at least one cluster.");
 
-        DefaultImage min = (DefaultImage) DatasetUtil.minAttributes(data);
-        DefaultImage max = (DefaultImage) DatasetUtil.maxAttributes(data);
-        DefaultImage[] centroids = new DefaultImage[numberOfClusters];
+        Image min = DatasetUtil.minAttributes(data);
+        Image max = DatasetUtil.maxAttributes(data);
+        Image[] centroids = new DefaultImage[numberOfClusters];
 
         int maxW = data.getMaxWidth();
         int maxH = data.getMaxHeight();
         int maxLength = maxW * maxH;
         for (int j = 0; j < numberOfClusters; ++j)
-            centroids[j] = (DefaultImage) DatasetUtil.getRandomImage(data, random);
+            centroids[j] = DatasetUtil.getRandomImage(data, random);
 
         int iterationCount = 0;
         boolean centroidsChanged = true;
@@ -71,10 +72,10 @@ public class KMeans implements Clusterer {
             double[][] sumPosition = new double[numberOfClusters][maxLength];
             int[] countPosition = new int[numberOfClusters];
             for (int i = 0; i < data.size(); ++i) {
-                DefaultImage in = data.getImage(i);
+                Image img = data.getImage(i);
                 for (int y = 0; y < maxH; ++y) {
                     for (int x = 0; x < maxW; ++x) {
-                        sumPosition[assignment[i]][y * maxW + x] += in.getPixel(x, y);
+                        sumPosition[assignment[i]][y * maxW + x] += img.getPixel(x, y);
                     }
                 }
                 ++countPosition[assignment[i]];
@@ -88,7 +89,7 @@ public class KMeans implements Clusterer {
                     for (int j = 0; j < maxLength; ++j)
                         tmp[j] = (float) sumPosition[i][j] / countPosition[i];
 
-                    DefaultImage newCentroid = new DefaultImage(maxW, maxH, tmp);
+                    Image newCentroid = new DefaultImage(maxW, maxH, tmp);
                     if (metric.getDistanceBetween(newCentroid, centroids[i]) > EPSILON) {
                         centroidsChanged = true;
                         centroids[i] = newCentroid;

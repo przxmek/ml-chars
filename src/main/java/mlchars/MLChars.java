@@ -42,7 +42,8 @@ public class MLChars {
 
         ImageDataset dataset = new ImageDatasetDefault();
         dataset.addAll(images);
-        Clusterer clusterer = new KMeans(100, 20, new PixelMetric());
+        Clusterer clusterer = new Cobweb();
+//        Clusterer clusterer = new KMeans(100, 20, new PixelMetric());
         ImageDataset[] result = clusterer.cluster(dataset);
 
         int groupCount = 0;
@@ -52,7 +53,7 @@ public class MLChars {
             ++groupCount;
             System.out.print(String.format("GROUP %d: ", groupCount));
             for (int j = 0; j < result[i].size(); ++j)
-                System.out.print(String.format("%s, ", result[i].getImage(j).getLabel()));
+                System.out.print(String.format("%s, ", ((DefaultImage) result[i].getImage(j)).getLabel()));
             System.out.println();
         }
     }

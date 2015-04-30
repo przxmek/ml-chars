@@ -4,7 +4,7 @@ package mlchars.clustering;
  * Created by Przemysław Kuczyński on 4/29/15.
  */
 
-import mlchars.DefaultImage;
+import mlchars.Image;
 import mlchars.ImageDataset;
 import mlchars.ImageDatasetDefault;
 import mlchars.filter.DatasetFilter;
@@ -43,7 +43,7 @@ public class Cobweb implements Clusterer {
         }
     }
 
-    private void updateClusterer(DefaultImage newInstance) {
+    private void updateClusterer(Image newInstance) {
         m_numberOfClustersDetermined = false;
 
         if (m_cobwebTree == null) {
@@ -93,7 +93,7 @@ public class Cobweb implements Clusterer {
         /**
          * for serialization
          */
-        private static final long serialVersionUID = -8610544539090024102L;
+        private static final long serialVersionUID = -8610544532090024102L;
 
         /**
          * The number of values seen
@@ -132,7 +132,6 @@ public class Cobweb implements Clusterer {
          * @param n     the number of times to add value
          */
         private void add(double value, double n) {
-
             sum += value * n;
             sumSq += value * value * n;
             count += n;
@@ -163,7 +162,6 @@ public class Cobweb implements Clusterer {
          * and standard deviation.
          */
         private void calculateDerived() {
-
             stdDev = Double.NaN;
             if (count > 0) {
                 stdDev = Double.POSITIVE_INFINITY;
@@ -226,7 +224,7 @@ public class Cobweb implements Clusterer {
          * @param numAttributes the number of attributes in the data
          * @param leafInstance  the instance to store at this leaf
          */
-        private CNode(int numAttributes, DefaultImage leafInstance) {
+        private CNode(int numAttributes, Image leafInstance) {
             this(numAttributes);
             if (m_clusterInstances == null) {
                 m_clusterInstances = new ImageDatasetDefault();
@@ -241,7 +239,7 @@ public class Cobweb implements Clusterer {
          * @param newInstance the instance to add
          * @throws Exception if an error occurs
          */
-        private void addInstance(DefaultImage newInstance) {// Add the instance to
+        private void addInstance(Image newInstance) {// Add the instance to
             // this cluster
             if (m_clusterInstances == null) {
                 m_clusterInstances = new ImageDatasetDefault();// (newInstance.ImageDataset(),
@@ -279,7 +277,6 @@ public class Cobweb implements Clusterer {
                 }
 
             } else {
-
                 // otherwise, find the best host for this instance
                 CNode bestHost = findHost(newInstance, false);
                 if (bestHost != null) {
@@ -298,13 +295,13 @@ public class Cobweb implements Clusterer {
          * considering each child in turn as a host for the new instance
          * @throws Exception if an error occurs
          */
-        private double[] cuScoresForChildren(DefaultImage newInstance) {
+        private double[] cuScoresForChildren(Image newInstance) {
             // look for a host in existing children
             double[] categoryUtils = new double[m_children.size()];
 
             // look for a home for this instance in the existing children
             for (int i = 0; i < m_children.size(); i++) {
-                CNode temp = (CNode) m_children.elementAt(i);
+                CNode temp = m_children.elementAt(i);
                 // tentitively add the new instance to this child
                 temp.updateStats(newInstance, false);
                 categoryUtils[i] = categoryUtility();
@@ -315,7 +312,7 @@ public class Cobweb implements Clusterer {
             return categoryUtils;
         }
 
-        private double cuScoreForBestTwoMerged(CNode merged, CNode a, CNode b, DefaultImage newInstance) {
+        private double cuScoreForBestTwoMerged(CNode merged, CNode a, CNode b, Image newInstance) {
 
             double mergedCU = -Double.MAX_VALUE;
             // consider merging the best and second
@@ -349,7 +346,7 @@ public class Cobweb implements Clusterer {
          * @return the best host
          * @throws Exception if an error occurs
          */
-        private CNode findHost(DefaultImage newInstance, boolean structureFrozen) {
+        private CNode findHost(Image newInstance, boolean structureFrozen) {
 
             if (!structureFrozen) {
                 updateStats(newInstance, false);
@@ -523,7 +520,7 @@ public class Cobweb implements Clusterer {
          */
         private void addChildNode(CNode child) {
             for (int i = 0; i < child.m_clusterInstances.size(); i++) {
-                DefaultImage temp = child.m_clusterInstances.getImage(i);
+                Image temp = child.m_clusterInstances.getImage(i);
                 m_clusterInstances.add(temp);
                 updateStats(temp, false);
             }
@@ -594,7 +591,7 @@ public class Cobweb implements Clusterer {
          * @param delete         true if the values of the supplied instance are to be
          *                       removed from the statistics
          */
-        private void updateStats(DefaultImage updateInstance, boolean delete) {
+        private void updateStats(Image updateInstance, boolean delete) {
 
             if (m_attStats == null) {
                 m_attStats = new Stats[m_numAttributes];

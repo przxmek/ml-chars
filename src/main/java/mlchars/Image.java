@@ -12,7 +12,17 @@ public interface Image {
 
     double getPixel(int x, int y);
 
-    Image subtract(DefaultImage other);
+    Image add(Image other);
+
+    Image subtract(Image other);
 
     Image subtract(double value);
+
+    Image multiply(Image other);
+
+    Image divide(double value);
+
+    Image divide(Image other);
+
+    Image sqrt();
 }

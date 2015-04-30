@@ -45,4 +45,34 @@ final public class DatasetUtil {
 
         return new DefaultImage(w, h, pixels);
     }
+
+    public static Image average(ImageDataset data) {
+        int maxW = data.getMaxWidth();
+        int maxH = data.getMaxHeight();
+        int maxLength = maxH * maxW;
+        double[] result = new double[maxLength];
+
+        for (int y = 0; y < maxH; ++y) {
+            for (int x = 0; x < maxW; ++x) {
+                double sum = 0;
+                for (int j = 0; j < data.size(); ++j) {
+                    Image img = data.getImage(j);
+                    sum += img.getPixel(x, y);
+                }
+                result[y * maxW + x] = sum / data.size();
+            }
+        }
+        return new DefaultImage(maxW, maxH, result);
+    }
+
+    public static Image standardDeviation(ImageDataset data, Image avg) {
+        Image sum = new DefaultImage(avg.getWidth(), avg.getHeight(), new double[avg.attributesCount()]);
+        for (int i = 0; i < data.size(); ++i) {
+            Image img = data.getImage(i);
+            Image diff = img.subtract(avg);
+            sum = sum.add(diff.multiply(diff));
+        }
+        sum = sum.divide(data.size());
+        return sum.sqrt();
+    }
 }

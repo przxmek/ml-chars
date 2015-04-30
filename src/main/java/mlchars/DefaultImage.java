@@ -26,6 +26,9 @@ public class DefaultImage extends AbstractImage implements Image {
         width = r.width;
         height = r.height;
 
+        if (width < 0)
+            width = width;
+
         pixels = new double[rgbPixels.length];
         for (int i = 0; i < pixels.length; ++i)
             pixels[i] = (rgbPixels[i] == -1) ? 0.f : 1.f;
@@ -34,6 +37,9 @@ public class DefaultImage extends AbstractImage implements Image {
     public DefaultImage(int width, int height, double[] pixels) {
         if (width * height != pixels.length)
             throw new RuntimeException("Pixels array does not match the image dimensions.");
+
+        if (width < 0)
+            width = width;
 
         this.width = width;
         this.height = height;
@@ -58,6 +64,12 @@ public class DefaultImage extends AbstractImage implements Image {
 
     public double[] getPixels() {
         return pixels;
+    }
+
+    public void setPixels(double[] pixels) {
+        if (pixels.length != this.pixels.length)
+            throw new RuntimeException("Length of pixels array does not match current length.");
+        this.pixels = pixels;
     }
 
     public double getPixel(int x, int y) {

@@ -10,18 +10,18 @@ import java.util.*;
  */
 public class ImageDatasetDefault implements ImageDataset {
 
-    List<DefaultImage> data = new ArrayList<DefaultImage>();
+    List<Image> data = new ArrayList<Image>();
 
     public ImageDatasetDefault() {
         // nothing to do.
     }
 
-    public synchronized boolean add(DefaultImage img) {
+    public synchronized boolean add(Image img) {
         // check(img);
         return data.add(img);
     }
 
-    public synchronized boolean addAll(Collection<? extends DefaultImage> c) {
+    public synchronized boolean addAll(Collection<? extends Image> c) {
         // check(img);
         return data.addAll(c);
     }
@@ -30,14 +30,14 @@ public class ImageDatasetDefault implements ImageDataset {
         data.clear();
     }
 
-    public DefaultImage getImage(int index) {
+    public Image getImage(int index) {
         return data.get(index);
     }
 
-    public Set<DefaultImage> kNearest(int k, DefaultImage img, Metric metric) {
-        Map<DefaultImage, Double> closest = new HashMap<DefaultImage, Double>();
+    public Set<Image> kNearest(int k, Image img, Metric metric) {
+        Map<Image, Double> closest = new HashMap<Image, Double>();
         double max = metric.getMaxValue();
-        for (DefaultImage i : data) {
+        for (Image i : data) {
             if (img.equals(i))
                 continue;
             double d = metric.getDistanceBetween(img, i);
@@ -103,11 +103,11 @@ public class ImageDatasetDefault implements ImageDataset {
         return maxP;
     }
 
-    private double removeFurthest(Map<DefaultImage, Double> closest, Metric metric) {
-        DefaultImage furthest = null;
+    private double removeFurthest(Map<Image, Double> closest, Metric metric) {
+        Image furthest = null;
         double max = metric.getMinValue();
 
-        for (DefaultImage i : closest.keySet()) {
+        for (Image i : closest.keySet()) {
             double d = closest.get(i);
 
             if (metric.compare(max, d)) {

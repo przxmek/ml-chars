@@ -8,13 +8,13 @@ import java.util.Collection;
  * Created by Przemysław Kuczyński on 4/29/15.
  */
 public interface ImageDataset {
-    boolean add(DefaultImage img);
+    boolean add(Image img);
 
-    boolean addAll(Collection<? extends DefaultImage> c);
+    boolean addAll(Collection<? extends Image> c);
 
-    DefaultImage getImage(int index);
+    Image getImage(int index);
 
-    java.util.Set<DefaultImage> kNearest(int k, DefaultImage img, Metric metric);
+    java.util.Set<Image> kNearest(int k, Image img, Metric metric);
 
     int size();
 
