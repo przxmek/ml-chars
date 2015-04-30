@@ -13,4 +13,4 @@ if [ -z "$1" ] || [ -z "$2" ]
 	exit 1
 fi
 
-java -jar ${JAR_PATH} ${DATA_DIR} ${OUTPUT_FILE}
+java -jar ${JAR_PATH} ${DATA_DIR} ${OUTPUT_FILE} | tee ${OUTPUT_FILE}
