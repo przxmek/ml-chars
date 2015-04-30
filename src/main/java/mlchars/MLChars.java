@@ -53,7 +53,7 @@ public class MLChars {
         printOutput(false, result);
 
         // Copy images
-        organizeImages("clusters", data_path, result);
+//        organizeImages("clusters", data_path, result);
     }
 
     private static void printOutput(boolean nice, ImageDataset[] result) {
